@@ -1,0 +1,27 @@
+.
+├── general
+│   ├── __init__.py
+│   ├── BST.py
+│   ├── meta_class_stuff
+│   │   ├── __init__.py
+│   │   ├── playground.py
+│   │   ├── rough.py
+│   │   └── test.py
+│   └── random.py
+├── other
+│   ├── AGENTS.md
+│   ├── CLAUDE.md
+│   ├── project-instructions.md
+│   ├── README.md
+│   └── symath-vision.md
+├── project_structure.txt
+├── scratch
+│   └── notes
+└── trash_bin
+    └── math_implementation
+        ├── __init__.py
+        ├── HFSet.py
+        ├── symtype_mock.py
+        └── test_symtype_mock.py
+
+7 directories, 18 files

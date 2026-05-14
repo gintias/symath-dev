@@ -1,0 +1,68 @@
+- can use any python object for value in a BST but must ensure objects are comparable
+
+- DATA DESCRIPTOR: any object that defines at least one of: __get__, __set__, or __delete__
+
+- CLASS DICTIONARY: __dict__ is a dunder attribute – class dictionaries cls.__dict__ are python dictionaries containing the classes' methods, attribues, and descriptors
+    - when such an object is stored as a class attribute, python will intercept attribute access on instances and re-route it through those methods instead – meaning for example, since every class is an instance of type, any time a class gets accessed by walking the MRO of type, type.__ a class
+
+
+- CALL OPERATOR: "()" : this will attempt to call anything before it, anything inside the brackets are arguments
+
+- LOOKUP OPERATOR: "." : works as follows, X.something does the following:
+1. Reads the internal type pointer of X – admits the class of X
+2. Read that class's internal MRO pointer – admits the tuple of classes to search
+3. Iterates through cls.__mro__, and for each class in the mro sequence, looks up "something" in class.__dict__
+4. if located, and the object is a descriptor, invoke descirptor logic
+5. Otherwise check the instance dict of X, then return
+6. If nothing is found, raaises attribute error
+
+finds the class of X, which is stored as an internal 
+    - if the thing on the left isnt callable – you get a type error
+- f1().f2().f3()
+
+
+
+GENERAL LOOKUP: py_obj.something runs like:
+1. Run type(X) which admits 
+
+
+type(X) vs. X.__class__: Both give the same output but run different procedures
+1. type(X): calls type w/ one argument, the built in implementation of type reads ob_type directly, NO LOOKUP PROCESS
+2. X.__class: 
+
+
+1. Calls type w/ argument py_obj – will produce 
+
+GENERAL CALL & LOOKUP SEQUENCE: Running py_obj(args) proceeds like:
+1.  Look up __call__ on type(py_obj)
+
+MRO LOOKUP: if cls is a class, then a 
+
+type(cls) calls type
+
+cls.obj_name()
+1. calls cls.obj_name
+2. cls.method will proceed to walk the MRO of type(cls) in an attempt to locate a data descriptor named "obj_name"
+    - Gets the class of cls by calling type(cls)
+
+
+
+
+- __dict__ is a dunder attribute – class dictionaries cls.__dict__ is a dictionary containing the classes methods, attribues, and descriptors
+- object, instance, type and super are all special built in python classes
+    - OBJECT: – the root class, every class inhertirs from it, so every value in python is an instance of object – used to create in memory instances of classes
+        - object is always last in the MRO
+        - accepts no arguments, returns featureless instance with no instance attributes
+    - TYPE: - default metaclass, every class is an instance of type, including itself
+        - type(obj) calls type w/ argument obj
+        - type(name, bases, dict) creates a new class
+        - calling "class cls_name(args):" calls behind the scenes type(name, bases, dict) and creates a new class
+    - SUPER: – 
+-  is a special class, always last in the MRO, accepts 
+- every class i
+
+are regular classes instances of the object class?
+- super is a built in class
+- call process of a class, initated by calling: instance = cls(args)
+1. calls __new__(cls, ...), this creates and returns new instance
+    - 
