@@ -55,8 +55,6 @@ class Set:
             return "∅"
         return "{" + ", ".join(str(x) for x in self._values) + "}"
 
-
-
 ###SET OPERATIONS
     def union(self, other = None):
         if other is None:
@@ -102,25 +100,34 @@ class Set:
         return new_set
 
     def power_set(self):
-        S = self.get_members()
-        com = []
-        for i in range(0,len(S)):
-            com = com + combinations(len(S), i)
-            com = com + [list(range(0,len(S)))]
+        members = self.get_members()
+        subsets = []
 
-        return Set(*([Set(*([S[indx] for indx in j])) for j in com]))
+        for size in range(0, len(members) + 1):
+            for indexes in combinations(len(members), size):
+                subset_members = [members[index] for index in indexes]
+                subsets.append(Set(*subset_members))
+
+        return Set(*subsets)
     
     def pair_set(self, other):
         if not isinstance(other, type(self)):
             return NotImplemented
         return Set(self, other)
 
+    def product(self, other):
+        if not isinstance(other, type(self)):
+            return NotImplemented
+        
+        s = [OrderedPair(a,b) for a in self for b in other]
+        return Set(*s)
+
     def singleton(self):
         return Set(self)
     
         return Set(val)
 
-    def adjoin(self, other):
+    def adjPoin(self, other):
         return Set.union(self, Set(other))
 
     def _add_elements(self, *elements):
@@ -146,28 +153,24 @@ class Set:
         return deepcopy(self._values)
     
 
-###OBJECTS\SetOperations
-class OrderedPair(Set):
 
+
+
+
+class OrderedPair:
     def __init__(self, a, b):
-        super().__init__(Set(a), Set(a, b))
-        self._pair = (a, b)
-    
-    def as_set(self):
-        return Set(*self._values)
+        self._first = a
+        self._second = b
+        self._kuratowski = Set(Set(a), Set(a, b))
 
-    def __iter__(self):
-        return iter((self._pair[0], self._pair[1]))
+    @property
+    def first(self):
+        return self._first
 
-    def __getitem__(self, index):
-        return self._pair[index]
-
-    def __str__(self):
-        return f"⟨{self._pair[0]}, {self._pair[1]}⟩"
-
-
-
-####PREDICATES / TESTABLES
+    @property
+    def second(self):
+        return self._second
+###PREDICATES / TESTABLES
 
     def is_subset(self, other):
         if not isinstance(other, type(self)):
@@ -191,10 +194,25 @@ class OrderedPair(Set):
             return True
     
         return False
+    def as_set(self):
+        return self._kuratowski
+
+    def __eq__(self, other):
+        if not isinstance(other, OrderedPair):
+            return NotImplemented
+        return self._first == other._first and self._second == other._second
+
+    def __str__(self):
+        return f"⟨{self._first}, {self._second}⟩"
+
+
+
+
+
+
     
     def has_cardinality(self, n):
         return len(self) == n
-
 
 
 def combinations(N, n, start=0):
@@ -205,3 +223,5 @@ def combinations(N, n, start=0):
         for rest in combinations(N, n - 1, first + 1):
             result.append([first] + rest)
     return result
+
+Rule:          name, arity, apply

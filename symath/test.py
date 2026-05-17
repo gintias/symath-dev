@@ -1,4 +1,4 @@
-from symath.SetTheory import Set, OrderedPair
+from SetTheory import Set, OrderedPair
 
 S = Set("A","B","C","D")
 L = Set("C","D")
@@ -12,61 +12,8 @@ print(Set.union(T, T))
 
 print(P.intersection().union())
 
+print(Set(*S,*L))
 
-
-def combinations(N, n, start=0):
-    if n == 0:
-        return [[]]
-    result = []
-    for first in range(start, N - n + 1):
-        for rest in combinations(N, n - 1, first + 1):
-            result.append([first] + rest)
-    return result
-
-
-
-x = Set("A")
-y = Set("B")
-t = Set.union(x,y).power_set().power_set()
-
-card = lambda x: len(x)
-has_card = lambda x: lambda n: card(x) == n
-
-
-
-
-cond = lambda x: card(x)==2
-L = tuple(map(cond, t))
-
-new=Set()
-vals = t.get_members()
-for i in range(0,len(L)):
-    if L[i]:
-        new=new.adjoin(vals[i])
-
-
-
-print(*new.get_members())
-print()
-
-
-
-p = OrderedPair(Set(),x)
-print(p)
-print(p.union())
-print(p.as_set())
-
-
-def combinations(N, n, start=0):
-    if n == 0:
-        return [[]]
-    result = []
-    for first in range(start, N - n + 1):
-        for rest in combinations(N, n - 1, first + 1):
-            result.append([first] + rest)
-    return result
-
-S = Set("A","B","C","D")
-
-
-
+s = [OrderedPair(a,b) for a in S for b in L]
+S = Set(*s)
+print(S)
